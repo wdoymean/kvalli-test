@@ -1,9 +1,17 @@
 // Page Object class...
-import { expect } from '@playwright/test';
+import { Page } from '@playwright/test';
+class TC110Page {
+  readonly page: Page;
 
-export default class TC110Page {
-  async createOrder(page) {
-    await page.goto('/create-order');
-    return page;
+  constructor(page: Page) {
+    this.page = page;
   }
+
+  static goto(page: Page): Promise<void> {
+    return page.goto('/create-order');
+  }
+
+  createOrderButton = this.page.getByRole('button', { name: 'Create Order' }).first();
+  amountInput = this.page.getByPlaceholder('Enter amount').first();
+  submitButton = this.page.getByLabel('Submit').first();
 }

@@ -1,17 +1,19 @@
-// Page Object class...
-import { Page } from '@playwright/test';
-class TC110Page {
+import { Locator, Page } from '@playwright/test';
+
+export class TC110Page {
   readonly page: Page;
+  readonly createOrderButton: Locator;
+  readonly amountInput: Locator;
+  readonly submitButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
+    this.createOrderButton = this.page.getByRole('button', { name: 'Create Order' }).first();
+    this.amountInput = this.page.getByPlaceholder('Enter amount').first();
+    this.submitButton = this.page.getByLabel('Submit').first();
   }
 
-  static goto(page: Page): Promise<void> {
-    return page.goto('/create-order');
+  async goto(): Promise<void> {
+    await this.page.goto('/create-order');
   }
-
-  createOrderButton = this.page.getByRole('button', { name: 'Create Order' }).first();
-  amountInput = this.page.getByPlaceholder('Enter amount').first();
-  submitButton = this.page.getByLabel('Submit').first();
 }

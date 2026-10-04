@@ -4,12 +4,18 @@ on:
   workflow_dispatch:
 
 jobs:
-  smoke:
+  e2e:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Smoke
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install
+      - run: npx playwright install --with-deps chromium
+      - name: Start the app
         run: |
-          echo "Kvalli dispatched this run on $GITHUB_REF_NAME at $GITHUB_SHA"
-          sleep 15
-          test -f src/app.ts
+          npx tsx src/app.ts &
+          sleep 3
+      - name: Run the autotest
+        run: npx playwright test tests/tc110.spec.ts

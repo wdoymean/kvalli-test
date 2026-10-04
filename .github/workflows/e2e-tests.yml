@@ -1,0 +1,15 @@
+name: e2e-tests
+
+on:
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Smoke
+        run: |
+          echo "Kvalli dispatched this run on $GITHUB_REF_NAME at $GITHUB_SHA"
+          sleep 15
+          test -f src/app.ts

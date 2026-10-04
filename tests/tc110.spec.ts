@@ -1,14 +1,16 @@
-// Test specification...
 import { test, expect } from '@playwright/test';
+import { TC110Page } from '../pages/TC110Page';
+
 test('Declined card leaves the order in PAYMENT_FAILED', async ({ page }) => {
-  await TC110Page.goto(page);
-  const orderPendingPayment = await TC110Page.createOrderButton.click();
-  await TC110Page.amountInput.fill('5.99');
-  await TC110Page.submitButton.click();
+  const tc110Page = new TC110Page(page);
+  await tc110Page.goto();
+  await tc110Page.createOrderButton.click();
+  await tc110Page.amountInput.fill('5.99');
+  await tc110Page.submitButton.click();
 
   // Step 2: Charge a card that the gateway declines
   const chargeButton = page.getByRole('button', { name: 'Charge' }).first();
-  await expect(chargeButton).toBeClickable({ timeout: 5000 });
+  await expect(chargeButton).toBeEnabled({ timeout: 5000 });
   await chargeButton.click();
 
   // Expected Result checks

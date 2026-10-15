@@ -4,7 +4,10 @@ export const app = express();
 app.use(express.json());
 
 type Order = { id: string; status: "new" | "paid" | "shipped" | "cancelled"; owner: string };
-const orders = new Map<string, Order>([["42", { id: "42", status: "paid", owner: "ada" }]]);
+const orders = new Map<string, Order>([
+  ["42", { id: "42", status: "paid", owner: "ada" }],
+  ["43", { id: "43", status: "paid", owner: "bob" }],
+]);
 
 app.get("/api/v2/orders/:id", (req, res) => {
   const order = orders.get(req.params.id);

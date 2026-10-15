@@ -4,12 +4,22 @@ on:
   workflow_dispatch:
 
 jobs:
-  smoke:
+  e2e:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-      - name: Smoke
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install
         run: |
-          echo "Kvalli dispatched this run on $GITHUB_REF_NAME at $GITHUB_SHA"
-          sleep 15
-          test -f src/app.ts
+          npm install --no-audit --no-fund
+          npx playwright install --with-deps chromium
+      - name: Start the order service
+        run: |
+          npx tsx src/app.ts > service.log 2>&1 &
+          for i in $(seq 1 30); do curl -sf http://localhost:3000/api/v1/catalog && exit 0; sleep 1; done
+          cat service.log; exit 1
+      - name: Playwright tests
+        run: npx playwright test

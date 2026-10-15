@@ -29,6 +29,13 @@ app.post("/api/v1/auth/login", (req, res) => {
   res.json({ token: "session-token" });
 });
 
+// Known defect: the invoice endpoint is not finished and fails for every order.
+app.get("/api/v2/orders/:id/invoice", (req, res) => {
+  const order = orders.get(req.params.id);
+  if (!order) return res.status(404).json({ error: "ORDER_NOT_FOUND" });
+  res.status(500).json({ error: "INTERNAL_ERROR" });
+});
+
 app.get("/api/v1/catalog", (_req, res) => res.json([{ sku: "A1", title: "Kettle" }]));
 
 if (process.argv[1]?.endsWith("app.ts")) app.listen(3000);

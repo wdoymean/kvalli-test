@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { OrdersPage } from '../pages/OrdersPage';
+import { OrdersPage } from '../pages/OrderPage';
 
 test.describe('Orders API - Negative Scenarios', () => {
   test('GET /api/v2/orders/999 → 404 (Not Found)', async ({ request }) => {

@@ -1,7 +1,7 @@
 export class CheckoutPage {
   constructor(page) {
     this.page = page;
-    this.submitBtn = page.getByRole("button", { name: "Submit Order" });
+    this.submitBtn = page.getByTestId("complete-order-btn");
   }
 
   async completePurchase() {

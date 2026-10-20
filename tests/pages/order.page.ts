@@ -9,7 +9,7 @@ export class OrderPage {
   constructor(page: Page) {
     this.page = page;
     this.reasonInput = page.getByLabel("Reason for cancelling");
-    this.cancelBtn = page.getByRole("button", { name: "Cancel the order" });
+    this.cancelBtn = page.getByRole("button", { name: "Cancel order" });
     this.cancelledMessage = page.getByText("Order cancelled. The refund is pending.");
   }
 
